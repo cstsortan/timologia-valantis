@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/timologia-valantis",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

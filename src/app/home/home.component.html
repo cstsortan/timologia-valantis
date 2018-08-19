@@ -1,0 +1,129 @@
+<div class="grid-container container pt-2">
+  <h1 class="alert alert-secondary mat-h1 d-flex justify-content-center">Τιμολόγια Βαλάντης</h1>
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-content class="w-100">
+        <div class="alert alert-primary">
+          Στοιχεία έκδοσης τιμολογίου
+        </div>
+        <div class="row">
+          <mat-form-field class="col-12 col-md-6">
+            <input matInput [(ngModel)]="issueDate" [matDatepicker]="picker" placeholder="Ημερομηνία έκδοσης">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input type="number" [(ngModel)]="invoiceNumber" matInput placeholder="Αριθμός">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <mat-select placeholder="Εβδομάδα" [(value)]="weekNumber">
+              <mat-option *ngFor="let week of weeks" [value]="week.weekNumber">
+                {{ week.weekNumber }} ( {{ week.startDate }} - {{ week.finishDate }} )
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <mat-select placeholder="Αποθηκευμένοι εκδότες" (valueChange)="presetIssuerSelected($event)">
+              <mat-option *ngFor="let issuer of allIssuers" [value]="issuer">
+                {{issuer.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.name" matInput placeholder="Oνοματεπώνυμο">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.address" matInput placeholder="Διεύθυνση">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.area" matInput placeholder="Ταχ. κώδικας, Πόλη">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.email" matInput placeholder="Email">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.phone" matInput placeholder="Τηλέφωνο">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.big" matInput placeholder="BIG">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.blz" matInput placeholder="BLZ">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.steuerId" matInput placeholder="Steuer id">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="issuerInfo.iban" matInput placeholder="IBAN">
+          </mat-form-field>
+        </div>
+        <div class="my-2"></div>
+        <div class="alert alert-primary">Στοιχεία πελάτη</div>
+        <div class="row">
+          <mat-form-field class="col-12">
+            <mat-select placeholder="Προεπιλογές" (valueChange)="presetSelected($event)">
+              <mat-option *ngFor="let client of allClients" [value]="client">
+                {{ client.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="clientInfo.name" matInput placeholder="Oνοματεπώνυμο">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="clientInfo.address" matInput placeholder="Διεύθυνση">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-md-6">
+            <input [(ngModel)]="clientInfo.area" matInput placeholder="Ταχ. κώδικας, Πόλη">
+          </mat-form-field>
+        </div>
+        <div class="my-2"></div>
+        <div class="alert alert-primary row m-0 align-items-center">
+          <div class="col">Καταχωρήσεις</div>
+          <div class="col-auto">
+            <button mat-mini-fab color="primary" (click)="addInvoiceNode()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="my-3"></div>
+          <mat-list>
+            <mat-list-item *ngFor="let invoiceNode of invoiceNodes; let i=index">
+              <div class="row w-100">
+                <mat-form-field class="col">
+                  <input matInput [(ngModel)]="invoiceNode.date" [matDatepicker]="node" placeholder="Ημερομηνία έκδοσης">
+                  <mat-datepicker-toggle matSuffix [for]="node"></mat-datepicker-toggle>
+                  <mat-datepicker #node></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="col">
+                  <input type="number" [(ngModel)]="invoiceNode.price" matInput placeholder="Τιμή Netto">
+                </mat-form-field>
+                <mat-form-field class="col">
+                  <input [(ngModel)]="invoiceNode.extraInfo" matInput placeholder="Πελάτης/Άλλο">
+                </mat-form-field>
+                <div class="col-auto">
+                  <button mat-mini-fab color="error" (click)="delete(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-card-content>
+    </mat-card-header>
+    <mat-card-footer class="m-3">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-auto">
+          <button (click)="generateInvoice()" mat-fab class="bg-success">
+            <mat-icon>
+              save
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>
